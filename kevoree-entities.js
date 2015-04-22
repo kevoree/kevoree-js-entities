@@ -5,3 +5,4 @@ exports.AbstractNode        = require('./lib/AbstractNode');
 exports.AdaptationPrimitive = require('./lib/AdaptationPrimitive');
 exports.AbstractComponent   = require('./lib/AbstractComponent');
 exports.Port                = require('./lib/Port');
+exports.DataType            = require('./lib/DataType');
