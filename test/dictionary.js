@@ -1,3 +1,5 @@
+'use strict';
+
 var Dictionary = require('../lib/Dictionary');
 var Class = require('pseudoclass');
 
