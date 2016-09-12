@@ -4,7 +4,6 @@ declare module 'kevoree-entities' {
   export interface Callback {
     (err?: Error): void;
   }
-  export interface Model {}
   export interface Logger {
     info(tag: string, msg?: string): void;
     warn(tag: string, msg?: string): void;
@@ -14,17 +13,23 @@ declare module 'kevoree-entities' {
     setFilter(tag: string): void;
   }
   export interface Core {
-    submitScript(script: string, callback: (err: Error, model: Model) => void): void;
+    submitScript(script: string): void;
+    submitScript(script: string, callback: (err: Error, model: any) => void): void;
   }
   export interface Dictionary {
-    get<T>(name: string, defaultValue: T): T;
-    getString(name: string, defaultValue: string|number|boolean): void;
+    get<T>(name: string, defaultValue?: T): T;
+    getString(name: string, defaultValue?: string): string;
+    getNumber(name: string, defaultValue?: number): number;
+    getBoolean(name: string, defaultValue?: boolean): boolean;
   }
   export interface DictionaryParam {
     optional?: boolean;
     defaultValue?: string|number|boolean;
     fragmentDependant?: boolean;
-    datatype?: any;
+    datatype?: DataType | string;
+  }
+  export interface Channel {
+    onSend(fromPortPath: string, destPortPaths: string[], msg: string, callback: () => void): void;
   }
 
   export abstract class KevoreeEntity {
@@ -41,6 +46,9 @@ declare module 'kevoree-entities' {
     getKevoreeCore(): Core;
     getNodeName(): string;
     getPath(): string;
+    getName(): string;
+    getModelEntity(): any;
+    isStarted(): boolean;
 
     start(done: Callback): void;
     stop(done: Callback): void;
@@ -50,11 +58,21 @@ declare module 'kevoree-entities' {
   }
 
   export abstract class AbstractComponent extends KevoreeEntity {}
-  export abstract class AbstractNode extends KevoreeEntity {}
-  export abstract class AbstractChannel extends KevoreeEntity {}
-  export abstract class AbstractGroup extends KevoreeEntity {}
+  export abstract class AbstractNode extends KevoreeEntity {
+    processTraces(diffSeq: any, targetModel: any): Array<any>;
+  }
+  export abstract class AbstractChannel extends KevoreeEntity {
+    protected localDispatch(msg: string, callback?: (answer: string) => void): void;
+  }
+  export abstract class AbstractGroup extends KevoreeEntity {
+    updateModel(model: any): void;
+  }
 
   export interface Port {
     send(msg: string): void;
+  }
+
+  export enum DataType {
+    STRING, DOUBLE, LONG, INT, FLOAT, SHORT, BOOLEAN
   }
 }
