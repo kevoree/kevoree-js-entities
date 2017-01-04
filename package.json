@@ -1,13 +1,13 @@
 {
   "name": "kevoree-entities",
-  "version": "9.0.1",
+  "version": "9.0.2",
   "description": "Kevoree Entities - Set of abstract Kevoree entities (group, node, channel, component)",
   "author": "Maxime Tricoire <max.tricoire@gmail.com>",
   "main": "./kevoree-entities.js",
   "typings": "kevoree-entities.d.ts",
 	"scripts": {
-		"preinstall": "npm run lint",
-		"lint": "eslint kevoree-entities.js lib"
+    "prepublish": "npm run lint",
+    "lint": "eslint kevoree-entities.js lib"
 	},
   "keywords": [
     "kevoree",
