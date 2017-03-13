@@ -63,13 +63,20 @@ declare module 'kevoree-entities' {
   }
   export abstract class AbstractChannel extends KevoreeEntity {
     protected localDispatch(msg: string, callback?: (answer: string) => void): void;
+		protected getOutputs(): Array<string>;
+		protected getInputs(): Array<string>;
+		protected getInputPorts(): Array<Port>;
+		protected getLocalInputPorts(): Array<Port>;
+		protected getRemoteInputPorts(): Array<Port>;
   }
   export abstract class AbstractGroup extends KevoreeEntity {
     updateModel(model: any): void;
   }
 
   export interface Port {
-    send(msg: string): void;
+		path: string;
+		isRemote: boolean;
+    send(msg: string, callback?: Callback): void;
   }
 
   export enum DataType {
